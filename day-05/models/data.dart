@@ -25,6 +25,13 @@ class Data {
     columns = columns.map((e) => e.reversed.toList()).toList();
   }
 
+  moveMultiAtOnce({required int howMany, required int from, required int to}) {
+    columns[to - 1].addAll((columns[from - 1].sublist(
+        columns[from - 1].length - howMany, columns[from - 1].length)));
+    columns[from - 1].removeRange(
+        columns[from - 1].length - howMany, columns[from - 1].length);
+  }
+
   move({required int howMany, required int from, required int to}) {
     while (howMany > 0) {
       columns[to - 1].add((columns[from - 1].removeLast()));
