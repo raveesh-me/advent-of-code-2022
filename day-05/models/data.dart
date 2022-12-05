@@ -10,17 +10,36 @@
  1   2   3   4   5   6   7   8   9 
 */
 
+import 'dart:async';
+
 class Data {
   List<List<String>> columns = List.generate(9, (_) => <String>[]);
   Data(List<String> dataStrings) : assert(dataStrings.length == 9) {
     dataStrings.forEach((element) {
       for (var i = 0; i < element.length; i++) {
         if (upperCaseAlphabets.contains(element[i])) {
-          columns[int.parse(dataStrings[8][i]) -1 ].add(element[i]);
+          columns[int.parse(dataStrings[8][i]) - 1].add(element[i]);
         }
       }
     });
-    columns.forEach(print);
+    columns = columns.map((e) => e.reversed.toList()).toList();
+  }
+
+  move({required int howMany, required int from, required int to}) {
+    while (howMany > 0) {
+      columns[to - 1].add((columns[from - 1].removeLast()));
+      howMany--;
+    }
+  }
+
+  printPretty() {
+    for (var i = 0; i < columns.length; i++) {
+      print("${i + 1} : ${columns[i].toString()}");
+    }
+  }
+
+  printLast() {
+    print(String.fromCharCodes(columns.map((e) => e.last.codeUnitAt(0))));
   }
 }
 
